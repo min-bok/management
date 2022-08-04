@@ -6,19 +6,17 @@ import { TableHead } from "@mui/material";
 import { TableBody } from "@mui/material";
 import { TableRow } from "@mui/material";
 import { TableCell } from "@mui/material";
-import { withStyles } from "@mui/material/styles";
-// import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { withStyles } from "@mui/styles";
 
-const styles = (theme) => ({
+const styles = {
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 3,
     overflowX: "auto",
   },
   table: {
     minWidth: 1080,
   },
-});
+};
 
 const customers = [
   {
