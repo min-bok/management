@@ -7,6 +7,8 @@ import { TableBody } from "@mui/material";
 import { TableRow } from "@mui/material";
 import { TableCell } from "@mui/material";
 import { withStyles } from "@mui/styles";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const styles = {
   root: {
@@ -18,35 +20,14 @@ const styles = {
   },
 };
 
-const customers = [
-  {
-    id: 1,
-    image: "https://placeimg.com/64/64/1",
-    name: "나동빈",
-    birthday: "961222",
-    gender: "남자",
-    job: "대학생",
-  },
-  {
-    id: 2,
-    image: "https://placeimg.com/64/64/2",
-    name: "이혜영",
-    birthday: "980810",
-    gender: "여자",
-    job: "대학생",
-  },
-  {
-    id: 3,
-    image: "https://placeimg.com/64/64/3",
-    name: "김범진",
-    birthday: "970730",
-    gender: "남자",
-    job: "대학생",
-  },
-];
-
 function App(props) {
   const { classes } = props;
+  const [customers, setCustomers] = useState("");
+
+  useEffect(() => {
+    axios.get("/api/customers").then((data) => setCustomers(data));
+  }, []);
+
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -61,19 +42,21 @@ function App(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {customers.map((customer) => {
-            return (
-              <Customer
-                key={customer.id}
-                id={customer.id}
-                image={customer.image}
-                name={customer.name}
-                birthday={customer.birthday}
-                gender={customer.gender}
-                job={customer.job}
-              />
-            );
-          })}
+          {customers.data
+            ? customers.data.map((customer) => {
+                return (
+                  <Customer
+                    key={customer.id}
+                    id={customer.id}
+                    image={customer.image}
+                    name={customer.name}
+                    birthday={customer.birthday}
+                    gender={customer.gender}
+                    job={customer.job}
+                  />
+                );
+              })
+            : ""}
         </TableBody>
       </Table>
     </Paper>
