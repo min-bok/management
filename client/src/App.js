@@ -8,6 +8,7 @@ import { TableRow } from "@mui/material";
 import { TableCell } from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material";
 import axios from "axios";
 
 const styles = {
@@ -18,15 +19,25 @@ const styles = {
   table: {
     minWidth: 1080,
   },
+  process: {
+    margin: 20,
+  },
 };
 
 function App(props) {
   const { classes } = props;
   const [customers, setCustomers] = useState("");
+  const [comleted, setCompleted] = useState(0);
 
   useEffect(() => {
     axios.get("/api/customers").then((data) => setCustomers(data));
-  }, []);
+  });
+
+  useEffect(() => {
+    setInterval(() => {
+      setCompleted(comleted >= 100 ? 0 : comleted + 25);
+    }, 20);
+  }, [comleted]);
 
   return (
     <Paper className={classes.root}>
@@ -42,21 +53,31 @@ function App(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {customers.data
-            ? customers.data.map((customer) => {
-                return (
-                  <Customer
-                    key={customer.id}
-                    id={customer.id}
-                    image={customer.image}
-                    name={customer.name}
-                    birthday={customer.birthday}
-                    gender={customer.gender}
-                    job={customer.job}
-                  />
-                );
-              })
-            : ""}
+          {customers.data ? (
+            customers.data.map((customer) => {
+              return (
+                <Customer
+                  key={customer.id}
+                  id={customer.id}
+                  image={customer.image}
+                  name={customer.name}
+                  birthday={customer.birthday}
+                  gender={customer.gender}
+                  job={customer.job}
+                />
+              );
+            })
+          ) : (
+            <TableRow>
+              <TableCell colSpan={6} align="center">
+                <CircularProgress
+                  className={classes.process}
+                  variant="determinate"
+                  value={comleted}
+                />
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </Paper>
