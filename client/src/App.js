@@ -30,8 +30,21 @@ function App(props) {
   const [customers, setCustomers] = useState("");
   // const [comleted, setCompleted] = useState(0);
 
+  const stateRefresh = () => {
+    setCustomers("");
+    // setCompleted(0);
+
+    axios
+      .get("/api/customers")
+      .then((data) => setCustomers(data))
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
-    axios.get("/api/customers").then((data) => setCustomers(data));
+    axios
+      .get("/api/customers")
+      .then((data) => setCustomers(data))
+      .catch((err) => console.log(err));
   }, []);
 
   // useEffect(() => {
@@ -85,7 +98,7 @@ function App(props) {
         </Table>
       </Paper>
 
-      <CustomerAdd />
+      <CustomerAdd stateRefresh={stateRefresh} />
     </div>
   );
 }

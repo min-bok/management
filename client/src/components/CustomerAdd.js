@@ -1,6 +1,11 @@
 import React from "react";
 import { post } from "axios";
 
+// 사진 안 나옴
+// 추가하면 고객 추가 하면 에러남, 재 접속하면 추가되어있음
+// Error occurred while proxying request localhost:3000/api/customers to http://localhost:5000/
+// 함수형으로 바꿔보기
+
 class CustomerAdd extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +23,7 @@ class CustomerAdd extends React.Component {
     e.preventDefault();
     this.addCustomer().then((response) => {
       console.log(response);
+      this.props.stateRefresh();
     });
     this.setState({
       file: null,
@@ -27,7 +33,6 @@ class CustomerAdd extends React.Component {
       job: "",
       fileName: "",
     });
-    window.location.reload();
   };
 
   handleFileChange = (e) => {
@@ -47,7 +52,7 @@ class CustomerAdd extends React.Component {
     const url = "/api/customers";
     const formData = new FormData();
     formData.append("image", this.state.file);
-    formData.append("name", this.state.name);
+    formData.append("name", this.state.userName);
     formData.append("birthday", this.state.birthday);
     formData.append("gender", this.state.gender);
     formData.append("job", this.state.job);
