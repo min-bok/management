@@ -27,17 +27,17 @@ const styles = {
 function App(props) {
   const { classes } = props;
   const [customers, setCustomers] = useState("");
-  const [comleted, setCompleted] = useState(0);
+  // const [comleted, setCompleted] = useState(0);
 
   useEffect(() => {
     axios.get("/api/customers").then((data) => setCustomers(data));
-  });
+  }, []);
 
-  useEffect(() => {
-    setInterval(() => {
-      setCompleted(comleted >= 100 ? 0 : comleted + 25);
-    }, 20);
-  }, [comleted]);
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     setCompleted(comleted >= 100 ? 0 : comleted + 25);
+  //   }, 20);
+  // }, [comleted]);
 
   return (
     <Paper className={classes.root}>
@@ -70,11 +70,12 @@ function App(props) {
           ) : (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                <CircularProgress
+                {/* <CircularProgress
                   className={classes.process}
                   variant="determinate"
                   value={comleted}
-                />
+                /> */}
+                <p>로딩중</p>
               </TableCell>
             </TableRow>
           )}
