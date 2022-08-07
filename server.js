@@ -29,15 +29,17 @@ app.get("/api/customers", (req, res) => {
   });
 });
 
-app.use("image", express.static("./upload"));
+app.use("/image", express.static("./upload"));
 
 app.post("/api/customers", upload.single("image"), (res, req) => {
   let sql = "INSERT INTO CUSTOMER VALUES (null, ?, ?, ? ,?, ?)";
-  let image = "/image/" + req.file.fileName;
-  let name = req.body.name;
-  let birthday = req.body.birthday;
-  let gender = req.body.gender;
-  let job = req.body.job;
+  let image = "/image/" + res.file.filename;
+  let name = res.body.name;
+  let birthday = res.body.birthday;
+  let gender = res.body.gender;
+  let job = res.body.job;
+
+  console.log(name);
 
   let params = [image, name, birthday, gender, job];
 
