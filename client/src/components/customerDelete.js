@@ -25,25 +25,21 @@ class CustomerDelete extends React.Component {
 
   handleClose = () => {
     this.setState({
-      file: null,
-      userName: "",
-      birthday: "",
-      gender: "",
-      job: "",
-      fileName: "",
       open: false,
     });
   };
 
   deleteCustomer(id) {
-    const url = "/api/customer" + id;
-    axios.delete(url);
+    const url = "/api/customers/" + id;
+    fetch(url, {
+      method: "DELETE",
+    });
     this.props.stateRefresh();
   }
 
   render() {
     return (
-      <>
+      <div>
         <Button
           variant="contained"
           color="secondary"
@@ -72,10 +68,10 @@ class CustomerDelete extends React.Component {
               onClick={this.handleClose}
             >
               닫기
-            </Button>{" "}
+            </Button>
           </DialogActions>
         </Dialog>
-      </>
+      </div>
     );
   }
 }

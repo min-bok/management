@@ -8,11 +8,6 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { withStyles } from "@mui/styles";
 
-// 사진 안 나옴
-// 추가하면 고객 추가 하면 에러남, 재 접속하면 추가되어있음
-// Error occurred while proxying request localhost:3000/api/customers to http://localhost:5000/
-// 함수형으로 바꿔보기
-
 const styles = (theme) => ({
   hidden: {
     display: "none",
@@ -33,10 +28,10 @@ class CustomerAdd extends React.Component {
     };
   }
 
-  hadleFormSubmit = (e) => {
+  handleFormSubmit = (e) => {
     e.preventDefault();
     this.addCustomer().then((response) => {
-      console.log(response);
+      console.log(response.data);
       this.props.stateRefresh();
     });
     this.setState({
@@ -57,7 +52,7 @@ class CustomerAdd extends React.Component {
     });
   };
 
-  hadleValueChange = (e) => {
+  handleValueChange = (e) => {
     let nextState = {};
     nextState[e.target.name] = e.target.value;
     this.setState(nextState);
@@ -72,7 +67,7 @@ class CustomerAdd extends React.Component {
     formData.append("gender", this.state.gender);
     formData.append("job", this.state.job);
     const config = {
-      Headers: {
+      headers: {
         "content-type": "multipart/form-data",
       },
     };
@@ -120,6 +115,7 @@ class CustomerAdd extends React.Component {
               value={this.state.fileName}
               onChange={this.handleFileChange}
             />
+            <br />
             <label htmlFor="raised-button-file">
               <Button
                 variant="contained"
@@ -138,35 +134,39 @@ class CustomerAdd extends React.Component {
               type="text"
               name="userName"
               value={this.state.userName}
-              onChange={this.hadleValueChange}
+              onChange={this.handleValueChange}
             />
+            <br />
             <TextField
               label="생년월일"
               type="text"
               name="birthday"
               value={this.state.birthday}
-              onChange={this.hadleValueChange}
+              onChange={this.handleValueChange}
             />
+            <br />
             <TextField
               label="성별"
               type="text"
               name="gender"
               value={this.state.gender}
-              onChange={this.hadleValueChange}
+              onChange={this.handleValueChange}
             />
+            <br />
             <TextField
               label="직업"
               type="text"
               name="job"
               value={this.state.job}
-              onChange={this.hadleValueChange}
+              onChange={this.handleValueChange}
             />
+            <br />
           </DialogContent>
           <DialogActions>
             <Button
               variant="contained"
               color="primary"
-              onClick={this.hadleFormSubmit}
+              onClick={this.handleFormSubmit}
             >
               추가
             </Button>
@@ -180,49 +180,52 @@ class CustomerAdd extends React.Component {
           </DialogActions>
         </Dialog>
       </div>
-      // <form onSubmit={this.hadleFormSubmit}>
-      //   <h1>고객 추가</h1>
-      // 프로필 이미지:
-      // <input
-      //   type="file"
-      //   name="file"
-      //   file={this.state.file}
-      //   value={this.state.fileName}
-      //   onChange={this.handleFileChange}
-      // />
-      // 이름 :
-      // <input
-      //   type="text"
-      //   name="userName"
-      //   value={this.state.userName}
-      //   onChange={this.hadleValueChange}
-      // />
-      // 생년월일:
-      // <input
-      //   type="text"
-      //   name="birthday"
-      //   value={this.state.birthday}
-      //   onChange={this.hadleValueChange}
-      // />
-      // 성별:
-      // <input
-      //   type="text"
-      //   name="gender"
-      //   value={this.state.gender}
-      //   onChange={this.hadleValueChange}
-      // />
-      // 직업:
-      // <input
-      //   type="text"
-      //   name="job"
-      //   value={this.state.job}
-      //   onChange={this.hadleValueChange}
-      // />
-      //   <button type="submit">추가하기</button>
-      // </form>
     );
   }
 }
+
+export default withStyles(styles)(CustomerAdd);
+
+// <form onSubmit={this.hadleFormSubmit}>
+//   <h1>고객 추가</h1>
+// 프로필 이미지:
+// <input
+//   type="file"
+//   name="file"
+//   file={this.state.file}
+//   value={this.state.fileName}
+//   onChange={this.handleFileChange}
+// />
+// 이름 :
+// <input
+//   type="text"
+//   name="userName"
+//   value={this.state.userName}
+//   onChange={this.hadleValueChange}
+// />
+// 생년월일:
+// <input
+//   type="text"
+//   name="birthday"
+//   value={this.state.birthday}
+//   onChange={this.hadleValueChange}
+// />
+// 성별:
+// <input
+//   type="text"
+//   name="gender"
+//   value={this.state.gender}
+//   onChange={this.hadleValueChange}
+// />
+// 직업:
+// <input
+//   type="text"
+//   name="job"
+//   value={this.state.job}
+//   onChange={this.hadleValueChange}
+// />
+//   <button type="submit">추가하기</button>
+// </form>
 
 // import React, { useCallback, useState } from "react";
 // import { post } from "axios";
@@ -314,5 +317,3 @@ class CustomerAdd extends React.Component {
 // </form>
 //   );
 // }
-
-export default withStyles(styles)(CustomerAdd);
