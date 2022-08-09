@@ -7,8 +7,6 @@ import { DialogContent } from "@mui/material";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
 
-// 삭제 시 cross-origin
-
 class CustomerDelete extends React.Component {
   constructor(props) {
     super(props);
