@@ -56,4 +56,32 @@ app.delete("/api/customers/:id", (req, res) => {
   });
 });
 
+app.put("/api/customers/:id", upload.single("image"), (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  console.log("dqw");
+  let sql = `
+  UPDATE 
+  CUSTOMER 
+  SET 
+  image = ?,
+  name = ?,
+  birthday = ?,
+  gender = ?,
+  job = ?
+  WHERE id = ?`;
+  console.log(req.body);
+  let image = "/image/" + req?.file?.filename;
+  let name = req.body?.userName ?? "";
+  let birthday = req.body?.birthday ?? "";
+  let gender = req.body?.gender ?? "";
+  let job = req.body?.job ?? "";
+  let params = [image, name, birthday, gender, job, id];
+  // let params = [];
+  connection.query(sql, params, (err, rows, fields) => {
+    console.log(rows);
+    res.send(rows);
+  });
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
