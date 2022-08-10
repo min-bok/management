@@ -1,26 +1,29 @@
-const fs = require("fs");
+// const fs = require("fs");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 5000;
+// const { Router } = require("express");
+const connection = require("./config");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const data = fs.readFileSync("./database.json");
-const conf = JSON.parse(data);
-const mysql = require("mysql");
+// const data = fs.readFileSync("./database.json");
+// const conf = JSON.parse(data);
+// const mysql = require("mysql");
 
-const connection = mysql.createConnection({
-  host: conf.host,
-  user: conf.user,
-  password: conf.password,
-  port: conf.port,
-  database: conf.database,
-});
-connection.connect();
+// const connection = mysql.createConnection({
+//   host: conf.host,
+//   user: conf.user,
+//   password: conf.password,
+//   port: conf.port,
+//   database: conf.database,
+// });
+// connection.connect();
 
 const multer = require("multer");
+const { Router } = require("express");
 const upload = multer({ dest: "./upload" });
 
 // async await 문법으로 바꿔보기
@@ -56,6 +59,7 @@ app.delete("/api/customers/:id", (req, res) => {
   });
 });
 
+// 회원 정보 수정
 app.put("/api/customers/:id", upload.single("image"), (req, res) => {
   const id = req.params.id;
   let sql = `
@@ -81,6 +85,29 @@ app.put("/api/customers/:id", upload.single("image"), (req, res) => {
     console.log(`rows ${gender}`);
     res.send(rows);
   });
+});
+
+// 회원가입
+app.post("/api/signup", (req, res) => {
+  let sql = `INSERT INTO SINGUP VALUES (null, ?, ?)`;
+  let userID = req.body.userID;
+  let userPW = req.body.userPW;
+  let params = [userID, userPW];
+
+  console.log(params);
+  try {
+    connection.query(sql, params, (err, rows, fields) => {
+      res.send({
+        statusCode: 1,
+        data: {},
+      });
+    });
+  } catch (err) {
+    res.send({
+      statusCode: -1,
+      data: {},
+    });
+  }
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

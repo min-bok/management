@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import CustomerAdd from "./components/CustomerAdd";
+import Signup from "./components/Signup";
 
 // import { styled, alpha } from "@mui/material/styles";
 // import AppBar from "@mui/material/AppBar";
@@ -112,6 +113,7 @@ function App(props) {
       </Paper>
 
       <CustomerAdd stateRefresh={stateRefresh} />
+      <Signup></Signup>
     </div>
   );
 }
