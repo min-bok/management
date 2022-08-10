@@ -31,7 +31,7 @@ class CustomerUpdate extends React.Component {
   handleFormSubmit = (e) => {
     e.preventDefault();
     this.updateCustomer(this.props.id).then((response) => {
-      console.log(response.data);
+      // console.log(response.data);s
       this.props.stateRefresh();
     });
     this.setState({
@@ -70,7 +70,10 @@ class CustomerUpdate extends React.Component {
       job,
       fileName,
     };
-    // console.log(val);
+
+    // console.log(`userName ${val.userName}`);
+    // console.log(`gender ${val.gender}`);
+
     const formData = new FormData();
     formData.append("image", this.state.file);
     formData.append("name", this.state.userName);
@@ -84,18 +87,6 @@ class CustomerUpdate extends React.Component {
       },
     });
     this.props.stateRefresh();
-    // const formData = new FormData();
-    // formData.append("image", this.state.file);
-    // formData.append("name", this.state.userName);
-    // formData.append("birthday", this.state.birthday);
-    // formData.append("gender", this.state.gender);
-    // formData.append("job", this.state.job);
-    // const config = {
-    //   headers: {
-    //     "content-type": "multipart/form-data",
-    //   },
-    // };
-    // return post(url, formData, config);
   };
 
   handleClickOpen = () => {

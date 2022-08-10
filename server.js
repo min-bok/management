@@ -58,8 +58,6 @@ app.delete("/api/customers/:id", (req, res) => {
 
 app.put("/api/customers/:id", upload.single("image"), (req, res) => {
   const id = req.params.id;
-  console.log(id);
-  console.log("dqw");
   let sql = `
   UPDATE 
   CUSTOMER 
@@ -70,16 +68,17 @@ app.put("/api/customers/:id", upload.single("image"), (req, res) => {
   gender = ?,
   job = ?
   WHERE id = ?`;
-  console.log(req.body);
+
   let image = "/image/" + req?.file?.filename;
-  let name = req.body?.userName ?? "";
+  let name = req.body?.name ?? "";
   let birthday = req.body?.birthday ?? "";
   let gender = req.body?.gender ?? "";
   let job = req.body?.job ?? "";
   let params = [image, name, birthday, gender, job, id];
-  // let params = [];
   connection.query(sql, params, (err, rows, fields) => {
-    console.log(rows);
+    console.log(`rows ${birthday}`);
+    console.log(`rows ${name}`);
+    console.log(`rows ${gender}`);
     res.send(rows);
   });
 });
