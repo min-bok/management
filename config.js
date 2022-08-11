@@ -13,3 +13,6 @@ const connection = mysql.createConnection({
 connection.connect();
 
 module.exports = connection;
+
+// mysql2 doc
+// https://rat2.tistory.com/8

@@ -8,15 +8,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const multer = require("multer");
-// const { Router } = require("express");
 const upload = multer({ dest: "./upload" });
+
+// db 연결해제
+// connection.end();
 
 // async await 문법으로 바꿔보기
 app.get("/api/customers", (req, res) => {
   connection.query(
     "SELECT * FROM CUSTOMER WHERE isDeleted = 0",
     (err, rows, fields) => {
-      res.send(rows);
+      if (err) {
+        throw "error!";
+      } else {
+        res.send(rows);
+      }
     }
   );
 });
@@ -24,7 +30,6 @@ app.get("/api/customers", (req, res) => {
 app.use("/image", express.static("./upload"));
 
 app.post("/api/customers", upload.single("image"), (req, res) => {
-  console.log(req);
   let sql = "INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?, now(), 0)";
   let image = "/image/" + req.file.filename;
   let name = req.body.name;
@@ -33,8 +38,6 @@ app.post("/api/customers", upload.single("image"), (req, res) => {
   let job = req.body.job;
   let params = [image, name, birthday, gender, job];
   connection.query(sql, params, (err, rows, fields) => {
-    console.log(err);
-    console.log(fields);
     res.send(rows);
   });
 });
@@ -76,7 +79,7 @@ app.put("/api/customers/:id", upload.single("image"), (req, res) => {
 });
 
 // 회원가입
-app.post("/api/signup", async (req, res) => {
+app.post("/api/signup", (req, res) => {
   let sql = `INSERT INTO SINGUP VALUES (null, ?, ?)`;
   let userID = req.body.userID;
   let userPW = req.body.userPW;
@@ -84,12 +87,14 @@ app.post("/api/signup", async (req, res) => {
 
   console.log(params);
   try {
-    let a = 3;
-    a = 4;
-    console.log();
+    connection.query(sql, params, (err, rows, fields) => {
+      res.send({
+        statusCode: 1,
+        data: {},
+      });
+    });
   } catch (err) {
-    console.log(err);
-    return res.send({
+    res.send({
       statusCode: -1,
       data: {},
     });
