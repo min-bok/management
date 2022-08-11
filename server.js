@@ -1,29 +1,14 @@
-// const fs = require("fs");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 5000;
-// const { Router } = require("express");
 const connection = require("./config");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// const data = fs.readFileSync("./database.json");
-// const conf = JSON.parse(data);
-// const mysql = require("mysql");
-
-// const connection = mysql.createConnection({
-//   host: conf.host,
-//   user: conf.user,
-//   password: conf.password,
-//   port: conf.port,
-//   database: conf.database,
-// });
-// connection.connect();
-
 const multer = require("multer");
-const { Router } = require("express");
+// const { Router } = require("express");
 const upload = multer({ dest: "./upload" });
 
 // async await 문법으로 바꿔보기
@@ -39,6 +24,7 @@ app.get("/api/customers", (req, res) => {
 app.use("/image", express.static("./upload"));
 
 app.post("/api/customers", upload.single("image"), (req, res) => {
+  console.log(req);
   let sql = "INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?, now(), 0)";
   let image = "/image/" + req.file.filename;
   let name = req.body.name;
@@ -47,6 +33,8 @@ app.post("/api/customers", upload.single("image"), (req, res) => {
   let job = req.body.job;
   let params = [image, name, birthday, gender, job];
   connection.query(sql, params, (err, rows, fields) => {
+    console.log(err);
+    console.log(fields);
     res.send(rows);
   });
 });
@@ -88,7 +76,7 @@ app.put("/api/customers/:id", upload.single("image"), (req, res) => {
 });
 
 // 회원가입
-app.post("/api/signup", (req, res) => {
+app.post("/api/signup", async (req, res) => {
   let sql = `INSERT INTO SINGUP VALUES (null, ?, ?)`;
   let userID = req.body.userID;
   let userPW = req.body.userPW;
@@ -96,14 +84,12 @@ app.post("/api/signup", (req, res) => {
 
   console.log(params);
   try {
-    connection.query(sql, params, (err, rows, fields) => {
-      res.send({
-        statusCode: 1,
-        data: {},
-      });
-    });
+    let a = 3;
+    a = 4;
+    console.log();
   } catch (err) {
-    res.send({
+    console.log(err);
+    return res.send({
       statusCode: -1,
       data: {},
     });

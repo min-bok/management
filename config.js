@@ -1,5 +1,5 @@
 const fs = require("fs");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const data = fs.readFileSync("./database.json");
 const conf = JSON.parse(data);
 

@@ -30,6 +30,10 @@ function Signup() {
     // const { setUserID, setUserPW } = nextState;
   };
 
+function aaa () {
+  return 
+}
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const result = await singup();
@@ -54,6 +58,11 @@ function Signup() {
         "content-type": "application/json",
       },
     });
+    if (result.data.statusCode != -1) {
+      //성공
+    } else {
+      //실
+    }
     return result;
   };
 
