@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 5000;
 const connection = require("./config");
+const router = express.Router();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,7 +14,7 @@ const upload = multer({ dest: "./upload" });
 // db 연결해제
 // connection.end();
 
-app.get("/api/customers", async (req, res) => {
+app.route("/api/customers").get(async (req, res) => {
   let sql = "SELECT * FROM CUSTOMER WHERE isDeleted = 0";
   try {
     const result = await connection.query(sql);
@@ -22,6 +23,16 @@ app.get("/api/customers", async (req, res) => {
     res.send(null);
   }
 });
+
+// app.get("/api/customers", async (req, res) => {
+//   let sql = "SELECT * FROM CUSTOMER WHERE isDeleted = 0";
+//   try {
+//     const result = await connection.query(sql);
+//     res.send(result[0]);
+//   } catch (err) {
+//     res.send(null);
+//   }
+// });
 
 app.use("/image", express.static("./upload"));
 
