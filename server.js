@@ -13,23 +13,19 @@ const upload = multer({ dest: "./upload" });
 // db 연결해제
 // connection.end();
 
-// async await 문법으로 바꿔보기
-app.get("/api/customers", (req, res) => {
-  connection.query(
-    "SELECT * FROM CUSTOMER WHERE isDeleted = 0",
-    (err, rows, fields) => {
-      if (err) {
-        throw "error!";
-      } else {
-        res.send(rows);
-      }
-    }
-  );
+app.get("/api/customers", async (req, res) => {
+  let sql = "SELECT * FROM CUSTOMER WHERE isDeleted = 0";
+  try {
+    const result = await connection.query(sql);
+    res.send(result[0]);
+  } catch (err) {
+    res.send(null);
+  }
 });
 
 app.use("/image", express.static("./upload"));
 
-app.post("/api/customers", upload.single("image"), (req, res) => {
+app.post("/api/customers", upload.single("image"), async (req, res) => {
   let sql = "INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?, now(), 0)";
   let image = "/image/" + req.file.filename;
   let name = req.body.name;
@@ -37,17 +33,25 @@ app.post("/api/customers", upload.single("image"), (req, res) => {
   let gender = req.body.gender;
   let job = req.body.job;
   let params = [image, name, birthday, gender, job];
-  connection.query(sql, params, (err, rows, fields) => {
-    res.send(rows);
-  });
+
+  try {
+    const result = await connection.query(sql, params);
+    res.send(result);
+  } catch (err) {
+    res.send(null);
+  }
 });
 
-app.delete("/api/customers/:id", (req, res) => {
+app.delete("/api/customers/:id", async (req, res) => {
   let sql = "UPDATE CUSTOMER SET isDeleted = 1 WHERE id = ?";
   let params = [req.params.id];
-  connection.query(sql, params, (err, rows, fields) => {
-    res.send(rows);
-  });
+
+  try {
+    const result = await connection.query(sql, params);
+    res.send(result);
+  } catch (err) {
+    res.send(null);
+  }
 });
 
 // 회원 정보 수정
