@@ -24,16 +24,6 @@ app.route("/api/customers").get(async (req, res) => {
   }
 });
 
-// app.get("/api/customers", async (req, res) => {
-//   let sql = "SELECT * FROM CUSTOMER WHERE isDeleted = 0";
-//   try {
-//     const result = await connection.query(sql);
-//     res.send(result[0]);
-//   } catch (err) {
-//     res.send(null);
-//   }
-// });
-
 app.use("/image", express.static("./upload"));
 
 app.post("/api/customers", upload.single("image"), async (req, res) => {
@@ -66,53 +56,25 @@ app.delete("/api/customers/:id", async (req, res) => {
 });
 
 // 회원 정보 수정
-app.put("/api/customers/:id", upload.single("image"), (req, res) => {
+app.put("/api/customers/:id", upload.single("image"), async (req, res) => {
   const id = req.params.id;
-  let sql = `
-  UPDATE 
-  CUSTOMER 
-  SET 
-  image = ?,
-  name = ?,
-  birthday = ?,
-  gender = ?,
-  job = ?
-  WHERE id = ?`;
-
-  let image = "/image/" + req?.file?.filename;
-  let name = req.body?.name ?? "";
-  let birthday = req.body?.birthday ?? "";
-  let gender = req.body?.gender ?? "";
-  let job = req.body?.job ?? "";
+  let sql = `UPDATE CUSTOMER SET image = ?,name = ?,birthday = ?,gender = ?,job = ?WHERE id = ?`;
+  let { name, birthday, gender, job } = req.body;
+  let image = "/image/" + req.file.filename;
   let params = [image, name, birthday, gender, job, id];
-  connection.query(sql, params, (err, rows, fields) => {
-    console.log(`rows ${birthday}`);
-    console.log(`rows ${name}`);
-    console.log(`rows ${gender}`);
-    res.send(rows);
-  });
+  await connection.query(sql, params);
 });
 
 // 회원가입
-app.post("/api/signup", (req, res) => {
+app.post("/api/signup", async (req, res) => {
   let sql = `INSERT INTO SINGUP VALUES (null, ?, ?)`;
-  let userID = req.body.userID;
-  let userPW = req.body.userPW;
+  let { userID, userPW } = req.body;
   let params = [userID, userPW];
 
-  console.log(params);
   try {
-    connection.query(sql, params, (err, rows, fields) => {
-      res.send({
-        statusCode: 1,
-        data: {},
-      });
-    });
+    const result = await connection.query(sql, params);
   } catch (err) {
-    res.send({
-      statusCode: -1,
-      data: {},
-    });
+    res.send(null);
   }
 });
 
