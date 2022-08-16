@@ -23,16 +23,10 @@ function Signup() {
 
   const handleUserIdValueChange = (e) => {
     setUserId(e.target.value);
-    // const { setUserID, setUserPW } = nextState;
   };
   const handleUserPwValueChange = (e) => {
     setUserPw(e.target.value);
-    // const { setUserID, setUserPW } = nextState;
   };
-
-function aaa () {
-  return 
-}
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +38,7 @@ function aaa () {
   };
 
   const singup = async () => {
-    const url = "/api/signup";
+    const url = "/api/auth/signup";
     const userID = userId;
     const userPW = userPw;
 
@@ -58,11 +52,6 @@ function aaa () {
         "content-type": "application/json",
       },
     });
-    if (result.data.statusCode != -1) {
-      //성공
-    } else {
-      //실
-    }
     return result;
   };
 
@@ -109,5 +98,3 @@ function aaa () {
 }
 
 export default Signup;
-
-// https://webaura.tistory.com/entry/NodeJS-%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%ED%8E%B8
