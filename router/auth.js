@@ -2,14 +2,15 @@ const express = require("express");
 const router = express.Router();
 const connection = require("../config");
 const bcrypt = require("bcrypt");
-// const saltRounds = 10;
+const { has, result } = require("lodash");
+const saltRounds = 10;
 
 router.post("/signup", async (req, res) => {
   const sql = `INSERT INTO SINGUP VALUES (null, ?, ?)`;
   const { userID, userPW } = req.body;
   const params = [userID, userPW];
   try {
-    bcrypt.hash(params[1], 10, async (err, hash) => {
+    bcrypt.hash(params[1], saltRounds, async (err, hash) => {
       params[1] = hash;
       const result = await connection.query(sql, params);
       console.log("회원가입 완료!");
@@ -25,14 +26,26 @@ router.post("/login", async (req, res) => {
   const { userId, userPw } = req.body;
   const params = [userId, userPw];
 
+  //   console.log(`params ${params[1]}`);
+
   try {
     console.log("hi");
     const userInfo = await connection.query(sql, params[0]);
+    // console.log(`userPW ${userInfo[0][0]["userPW"]}`);
 
     if (userInfo[0][0] == undefined) {
       console.log("ID가 존재하지 않습니다.");
     } else {
       console.log("존재!");
+      bcrypt.compare(params[1], userInfo[0][0]["userPW"], (err, result) => {
+        if (result) {
+          console.log("비밀번호 일치");
+        } else {
+          console.log("불일치");
+        }
+      });
+
+      //   bcrypt.compareSync(userInfo[0][0]["userPW"], hash);
     }
 
     res.end();
