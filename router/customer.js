@@ -22,6 +22,8 @@ router.post("/", upload.single("image"), async (req, res) => {
 
   try {
     const result = await connection.query(sql, params);
+
+    console.log(result);
     res.send(result);
   } catch (err) {
     res.send(null);

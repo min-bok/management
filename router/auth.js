@@ -21,47 +21,47 @@ router.post("/signup", async (req, res) => {
       params[1] = hash;
       const result = await connection.query(sql, params);
 
-      const AccessToken = jwt.sign(
-        {
-          type: "JWT",
-          id: userId,
-          pw: userPw,
-        },
-        SECRET_KEY,
-        // process.env.SECRET_KEY
-        {
-          expiresIn: "15m",
-          issuer: "minbok",
-        }
-      );
+      // const AccessToken = jwt.sign(
+      //   {
+      //     type: "JWT",
+      //     id: userId,
+      //     pw: userPw,
+      //   },
+      //   SECRET_KEY,
+      //   // process.env.SECRET_KEY
+      //   {
+      //     expiresIn: "15m",
+      //     issuer: "minbok",
+      //   }
+      // );
 
-      const RefreshToken = jwt.sign(
-        {
-          type: "JWT",
-          id: userId,
-          pw: userPw,
-        },
-        SECRET_KEY,
-        {
-          expiresIn: "14d",
-          issuer: "minbok",
-        }
-      );
+      // const RefreshToken = jwt.sign(
+      //   {
+      //     type: "JWT",
+      //     id: userId,
+      //     pw: userPw,
+      //   },
+      //   SECRET_KEY,
+      //   {
+      //     expiresIn: "14d",
+      //     issuer: "minbok",
+      //   }
+      // );
 
-      console.log("회원가입 완료!");
+      // console.log("회원가입 완료!");
       // console.log(`SECRET_KEY ${process.env.SECRET_KEY}`);
-      console.log(`AccessToken ${AccessToken}`);
-      console.log(`RefreshToken ${RefreshToken}`);
+      // console.log(`AccessToken ${AccessToken}`);
+      // console.log(`RefreshToken ${RefreshToken}`);
 
-      return res.status(200).json({
-        msg: "회원가입 완료!",
-        AccessToken: AccessToken,
-        RefreshToken: RefreshToken,
-      });
+      // return res.status(200).json({
+      //   msg: "회원가입 완료!",
+      //   AccessToken: AccessToken,
+      //   RefreshToken: RefreshToken,
+      // });
     });
   } catch (err) {
     res.status(400).json({
-      msg: "회원가입 과정에사 에러발생!",
+      msg: "회원가입 과정에서 에러발생!",
     });
   }
 });
@@ -79,21 +79,59 @@ router.post("/login", async (req, res) => {
     // console.log(`userPW ${userInfo[0][0]["userPW"]}`);
 
     if (userInfo[0][0] == undefined) {
-      console.log("ID가 존재하지 않습니다.");
+      return res.status(400).json({
+        msg: "존재하지않는 아이디 입니다.",
+      });
     } else {
       console.log("존재!");
       bcrypt.compare(params[1], userInfo[0][0]["userPW"], (err, result) => {
         if (result) {
           console.log("비밀번호 일치");
+
+          const AccessToken = jwt.sign(
+            {
+              type: "JWT",
+              id: userId,
+              pw: userPw,
+            },
+            SECRET_KEY,
+            // process.env.SECRET_KEY
+            {
+              expiresIn: "15m",
+              issuer: "minbok",
+            }
+          );
+
+          const RefreshToken = jwt.sign(
+            {
+              type: "JWT",
+              id: userId,
+              pw: userPw,
+            },
+            SECRET_KEY,
+            {
+              expiresIn: "14d",
+              issuer: "minbok",
+            }
+          );
+
+          // console.log("회원가입 완료!");
+          // console.log(`AccessToken ${AccessToken}`);
+          // console.log(`RefreshToken ${RefreshToken}`);
+
+          return res.status(200).json({
+            msg: "로그인 성공!",
+            AccessToken: AccessToken,
+            RefreshToken: RefreshToken,
+          });
         } else {
           console.log("불일치");
+          return res.status(400).json({
+            msg: "비밀번호가 일치하지 않습니다.",
+          });
         }
       });
-
-      //   bcrypt.compareSync(userInfo[0][0]["userPW"], hash);
     }
-
-    res.end();
   } catch (err) {
     console.log("err!");
     res.send(null);
