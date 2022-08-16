@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CustomerAdd from "./components/CustomerAdd";
 import Signup from "./components/Signup";
+import Login from "./components/Login";
 
 const styles = {
   root: {
@@ -106,6 +107,7 @@ function App(props) {
 
       <CustomerAdd stateRefresh={stateRefresh} />
       <Signup></Signup>
+      <Login></Login>
     </div>
   );
 }
