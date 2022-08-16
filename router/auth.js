@@ -53,10 +53,16 @@ router.post("/signup", async (req, res) => {
       console.log(`AccessToken ${AccessToken}`);
       console.log(`RefreshToken ${RefreshToken}`);
 
-      res.send(result);
+      return res.status(200).json({
+        msg: "회원가입 완료!",
+        AccessToken: AccessToken,
+        RefreshToken: RefreshToken,
+      });
     });
   } catch (err) {
-    res.send(null);
+    res.status(400).json({
+      msg: "회원가입 과정에사 에러발생!",
+    });
   }
 });
 

@@ -25,6 +25,8 @@ app.use("/image", express.static("./upload"));
 
 // axios.defaults.withCredentials = true;
 
+// app.use(cors());
+
 // app.use(
 //   cors({
 //     origin: true,

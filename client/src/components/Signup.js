@@ -45,11 +45,15 @@ function Signup() {
       userPw,
     };
 
-    const result = await axios.post(url, val, {
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+    const result = await axios
+      .post(url, val, {
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+      .then(function (response) {
+        console.log(`status ${response.data}`);
+      });
     return result;
   };
 
