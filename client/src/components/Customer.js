@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { TableRow } from "@mui/material";
 import { TableCell } from "@mui/material";
 import CustomerDelete from "./CustomerDelete";
