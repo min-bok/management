@@ -39,12 +39,10 @@ function Signup() {
 
   const singup = async () => {
     const url = "/api/auth/signup";
-    const userID = userId;
-    const userPW = userPw;
 
     const val = {
-      userID,
-      userPW,
+      userId,
+      userPw,
     };
 
     const result = await axios.post(url, val, {

@@ -2,16 +2,20 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 5000;
-const connection = require("./config");
+// const connection = require("./config");
+
+// const cors = require("cors");
+// const session = require("express-session");
+// const cookieParser = require("cookie-parser");
 
 const routerApi = require("./router");
-// const CustomerApiId = require("./api/CustomerApiId");
+const { default: axios } = require("axios");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const multer = require("multer");
-const upload = multer({ dest: "./upload" });
+// const multer = require("multer");
+// const upload = multer({ dest: "./upload" });
 
 // db 연결해제
 // connection.end();
@@ -19,19 +23,25 @@ const upload = multer({ dest: "./upload" });
 app.use("/api", routerApi);
 app.use("/image", express.static("./upload"));
 
-// 회원가입
-// app.post("/api/auth/signup", async (req, res) => {
-//   let sql = `INSERT INTO SINGUP VALUES (null, ?, ?)`;
-//   let { userID, userPW } = req.body;
-//   let params = [userID, userPW];
+// axios.defaults.withCredentials = true;
 
-//   console.log(`test ${[params]}`);
-
-//   try {
-//     const result = await connection.query(sql, params);
-//   } catch (err) {
-//     res.send(null);
-//   }
-// });
+// app.use(
+//   cors({
+//     origin: true,
+//     credentials: true,
+//   })
+// );
+// app.use(cookieParser());
+// app.use(
+//   session({
+//     key: "loginData",
+//     secret: "testSecret",
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       expires: 60 * 60 * 24,
+//     },
+//   })
+// );
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

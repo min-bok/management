@@ -2,18 +2,57 @@ const express = require("express");
 const router = express.Router();
 const connection = require("../config");
 const bcrypt = require("bcrypt");
-const { has, result } = require("lodash");
 const saltRounds = 10;
+
+const jwt = require("jsonwebtoken");
+// require("dotenv").config();
+const SECRET_KEY =
+  "d7dc0a02ab84686fa1da76896332901382c50372692bf317c80bcf5858ebae50b2934c5d30b00b308d0966385d25e6bc";
+
+// 테스트 계정
+// testing, test1234
 
 router.post("/signup", async (req, res) => {
   const sql = `INSERT INTO SINGUP VALUES (null, ?, ?)`;
-  const { userID, userPW } = req.body;
-  const params = [userID, userPW];
+  const { userId, userPw } = req.body;
+  const params = [userId, userPw];
   try {
     bcrypt.hash(params[1], saltRounds, async (err, hash) => {
       params[1] = hash;
       const result = await connection.query(sql, params);
+
+      const AccessToken = jwt.sign(
+        {
+          type: "JWT",
+          id: userId,
+          pw: userPw,
+        },
+        SECRET_KEY,
+        // process.env.SECRET_KEY
+        {
+          expiresIn: "15m",
+          issuer: "minbok",
+        }
+      );
+
+      const RefreshToken = jwt.sign(
+        {
+          type: "JWT",
+          id: userId,
+          pw: userPw,
+        },
+        SECRET_KEY,
+        {
+          expiresIn: "14d",
+          issuer: "minbok",
+        }
+      );
+
       console.log("회원가입 완료!");
+      // console.log(`SECRET_KEY ${process.env.SECRET_KEY}`);
+      console.log(`AccessToken ${AccessToken}`);
+      console.log(`RefreshToken ${RefreshToken}`);
+
       res.send(result);
     });
   } catch (err) {
