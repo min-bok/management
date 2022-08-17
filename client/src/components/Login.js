@@ -61,12 +61,13 @@ function Login() {
   };
 
   const logout = () => {
-    window.confirm("로그아웃 하시겠습니까?");
-
-    // r
-    localStorage.removeItem("token");
-    setIsLogin(false);
-    window.location.reload();
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+      localStorage.removeItem("token");
+      setIsLogin(false);
+      window.location.reload();
+    } else {
+      window.location.reload();
+    }
   };
 
   return (
