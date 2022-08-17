@@ -3,6 +3,9 @@ import axios from "axios";
 
 function Login() {
   // const [idx, setIdx] = useState("");
+
+  // history.pus;
+
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const [isLogin, setIsLogin] = useState(false);
@@ -57,6 +60,7 @@ function Login() {
       .catch((err) => {
         alert(err.response.data.msg);
       });
+
     return result;
   };
 
@@ -64,8 +68,6 @@ function Login() {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       localStorage.removeItem("token");
       setIsLogin(false);
-      window.location.reload();
-    } else {
       window.location.reload();
     }
   };

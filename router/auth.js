@@ -104,7 +104,7 @@ router.post("/login", async (req, res) => {
             SECRET_KEY,
             // process.env.SECRET_KEY
             {
-              expiresIn: "15m",
+              expiresIn: "10s",
               issuer: "minbok",
             }
           );
@@ -148,3 +148,7 @@ router.post("/login", async (req, res) => {
 module.exports = router;
 
 // https://webaura.tistory.com/entry/NodeJS-%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%ED%8E%B8
+// https://velog.io/@yena1025/JWT-%ED%86%A0%ED%81%B0-%EC%9D%B8%EC%A6%9D-%EC%A0%88%EC%B0%A8%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%84-%EA%B3%BC%EC%A0%95
+
+// 토큰 검사 및 재발급 참고
+// https://cotak.tistory.com/102
