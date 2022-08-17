@@ -61,6 +61,7 @@ router.post("/signup", async (req, res) => {
       // console.log(`RefreshToken ${RefreshToken}`);
 
       return res.status(200).json({
+        ok: true,
         msg: "회원가입 완료!",
         AccessToken: AccessToken,
         RefreshToken: RefreshToken,
@@ -68,6 +69,7 @@ router.post("/signup", async (req, res) => {
     });
   } catch (err) {
     res.status(400).json({
+      ok: false,
       msg: "회원가입 과정에서 에러발생!",
     });
   }

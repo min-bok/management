@@ -29,13 +29,19 @@ class CustomerDelete extends React.Component {
 
   deleteCustomer(id) {
     const url = "/api/customers/" + id;
-    axios.delete(url, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-
-    this.props.stateRefresh();
+    axios
+      .delete(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        this.props.stateRefresh();
+      })
+      .catch((err) => {
+        alert(err.response.data.error);
+        this.props.stateRefresh();
+      });
   }
 
   render() {

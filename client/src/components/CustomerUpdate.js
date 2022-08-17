@@ -81,13 +81,20 @@ class CustomerUpdate extends React.Component {
     formData.append("gender", this.state.gender);
     formData.append("job", this.state.job);
 
-    await axios.put(url, formData, {
-      headers: {
-        "content-type": "multipart/form-data",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    this.props.stateRefresh();
+    await axios
+      .put(url, formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        this.props.stateRefresh();
+      })
+      .catch((err) => {
+        alert(err.response.data.error);
+        this.props.stateRefresh();
+      });
   };
 
   handleClickOpen = () => {

@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "./upload" });
 const connection = require("../config");
-const jwt = require("jsonwebtoken");
+const authJWT = require("../middleware/authJWT");
 
 router.get("/", async (req, res) => {
   let sql = "SELECT * FROM CUSTOMER WHERE isDeleted = 0";
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", authJWT, upload.single("image"), async (req, res) => {
   let sql = "INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?, now(), 0)";
   let image = "/image/" + req.file.filename;
   let { name, birthday, gender, job } = req.body;
@@ -33,7 +33,7 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authJWT, async (req, res) => {
   let sql = "UPDATE CUSTOMER SET isDeleted = 1 WHERE id = ?";
   let params = [req.params.id];
 
@@ -45,7 +45,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", upload.single("image"), async (req, res) => {
+router.put("/:id", authJWT, upload.single("image"), async (req, res) => {
   const id = req.params.id;
   let sql = `UPDATE CUSTOMER SET image = ?,name = ?,birthday = ?,gender = ?,job = ?WHERE id = ?`;
   let { name, birthday, gender, job } = req.body;
