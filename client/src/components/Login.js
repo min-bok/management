@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 function Login() {
+  // const [idx, setIdx] = useState("");
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const [isLogin, setIsLogin] = useState(false);
@@ -47,22 +48,23 @@ function Login() {
         const msg = res.data.msg;
         const AccessToken = res.data.AccessToken;
         // const RefreshToken = res.data.RefreshToken;
-
-        // console.log(msg);
         alert(msg);
         localStorage.setItem("token", AccessToken);
         window.location.reload();
+
+        res.send(AccessToken);
       })
       .catch((err) => {
         alert(err.response.data.msg);
-        // console.log(err.response.data.msg);
       });
     return result;
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
     window.confirm("로그아웃 하시겠습니까?");
+
+    // r
+    localStorage.removeItem("token");
     setIsLogin(false);
     window.location.reload();
   };

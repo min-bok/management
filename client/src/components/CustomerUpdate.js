@@ -84,6 +84,7 @@ class CustomerUpdate extends React.Component {
     await axios.put(url, formData, {
       headers: {
         "content-type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     this.props.stateRefresh();

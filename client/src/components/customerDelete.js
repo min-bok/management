@@ -5,6 +5,7 @@ import { DialogTitle } from "@mui/material";
 import { DialogContent } from "@mui/material";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
+import axios from "axios";
 
 class CustomerDelete extends React.Component {
   constructor(props) {
@@ -28,9 +29,12 @@ class CustomerDelete extends React.Component {
 
   deleteCustomer(id) {
     const url = "/api/customers/" + id;
-    fetch(url, {
-      method: "DELETE",
+    axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
+
     this.props.stateRefresh();
   }
 

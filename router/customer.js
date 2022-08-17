@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "./upload" });
 const connection = require("../config");
+const jwt = require("jsonwebtoken");
 
 router.get("/", async (req, res) => {
   let sql = "SELECT * FROM CUSTOMER WHERE isDeleted = 0";
@@ -22,6 +23,8 @@ router.post("/", upload.single("image"), async (req, res) => {
 
   try {
     const result = await connection.query(sql, params);
+
+    console.log(req.headers);
 
     console.log(result);
     res.send(result);

@@ -12,28 +12,35 @@ const SECRET_KEY =
 // 테스트 계정
 // testing, test1234
 
+// router.get("/test", (req, res) => {
+//   const token =
+//     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOiJ0ZXN0aW5nIiwicHciOiJ0ZXN0MTIzNCIsImlhdCI6MTY2MDcwNDMzOSwiZXhwIjoxNjYwNzA1MjM5LCJpc3MiOiJtaW5ib2sifQ.PM778kZbmf48GKlMbAm0_sDM-kroL1VNVgSXQep9VqQ";
+//   const payload = jwt.verify(token, SECRET_KEY);
+//   res.send(payload);
+// });
+
 router.post("/signup", async (req, res) => {
   const sql = `INSERT INTO SINGUP VALUES (null, ?, ?)`;
   const { userId, userPw } = req.body;
   const params = [userId, userPw];
+
   try {
     bcrypt.hash(params[1], saltRounds, async (err, hash) => {
       params[1] = hash;
       const result = await connection.query(sql, params);
 
-      // const AccessToken = jwt.sign(
-      //   {
-      //     type: "JWT",
-      //     id: userId,
-      //     pw: userPw,
-      //   },
-      //   SECRET_KEY,
-      //   // process.env.SECRET_KEY
-      //   {
-      //     expiresIn: "15m",
-      //     issuer: "minbok",
-      //   }
-      // );
+      const AccessToken = jwt.sign(
+        {
+          type: "JWT",
+          id: userId,
+        },
+        SECRET_KEY,
+        // process.env.SECRET_KEY
+        {
+          expiresIn: "15m",
+          issuer: "minbok",
+        }
+      );
 
       // const RefreshToken = jwt.sign(
       //   {
@@ -53,11 +60,11 @@ router.post("/signup", async (req, res) => {
       // console.log(`AccessToken ${AccessToken}`);
       // console.log(`RefreshToken ${RefreshToken}`);
 
-      // return res.status(200).json({
-      //   msg: "회원가입 완료!",
-      //   AccessToken: AccessToken,
-      //   RefreshToken: RefreshToken,
-      // });
+      return res.status(200).json({
+        msg: "회원가입 완료!",
+        AccessToken: AccessToken,
+        RefreshToken: RefreshToken,
+      });
     });
   } catch (err) {
     res.status(400).json({
@@ -70,8 +77,6 @@ router.post("/login", async (req, res) => {
   const sql = `SELECT * FROM SINGUP WHERE userID = ?;`;
   const { userId, userPw } = req.body;
   const params = [userId, userPw];
-
-  //   console.log(`params ${params[1]}`);
 
   try {
     console.log("hi");
@@ -102,18 +107,18 @@ router.post("/login", async (req, res) => {
             }
           );
 
-          const RefreshToken = jwt.sign(
-            {
-              type: "JWT",
-              id: userId,
-              pw: userPw,
-            },
-            SECRET_KEY,
-            {
-              expiresIn: "14d",
-              issuer: "minbok",
-            }
-          );
+          // const RefreshToken = jwt.sign(
+          //   {
+          //     type: "JWT",
+          //     id: userId,
+          //     pw: userPw,
+          //   },
+          //   SECRET_KEY,
+          //   {
+          //     expiresIn: "14d",
+          //     issuer: "minbok",
+          //   }
+          // );
 
           // console.log("회원가입 완료!");
           // console.log(`AccessToken ${AccessToken}`);
@@ -122,7 +127,7 @@ router.post("/login", async (req, res) => {
           return res.status(200).json({
             msg: "로그인 성공!",
             AccessToken: AccessToken,
-            RefreshToken: RefreshToken,
+            // RefreshToken: RefreshToken,
           });
         } else {
           console.log("불일치");
