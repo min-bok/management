@@ -99,7 +99,6 @@ router.post("/login", async (req, res) => {
             {
               type: "JWT",
               id: userId,
-              pw: userPw,
             },
             SECRET_KEY,
             // process.env.SECRET_KEY

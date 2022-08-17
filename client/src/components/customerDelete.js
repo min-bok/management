@@ -36,10 +36,17 @@ class CustomerDelete extends React.Component {
         },
       })
       .then((res) => {
+        console.log(res);
         this.props.stateRefresh();
       })
       .catch((err) => {
-        alert(err.response.data.error);
+        if (err.response.status === 403) {
+          alert(err.response.data.error);
+          localStorage.removeItem("token");
+          window.location.reload();
+        } else {
+          alert(err.response.data.error);
+        }
         this.props.stateRefresh();
       });
   }

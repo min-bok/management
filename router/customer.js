@@ -4,6 +4,7 @@ const multer = require("multer");
 const upload = multer({ dest: "./upload" });
 const connection = require("../config");
 const authJWT = require("../middleware/authJWT");
+const jwt = require("jsonwebtoken");
 
 router.get("/", async (req, res) => {
   let sql = "SELECT * FROM CUSTOMER WHERE isDeleted = 0";
@@ -24,11 +25,10 @@ router.post("/", authJWT, upload.single("image"), async (req, res) => {
   try {
     const result = await connection.query(sql, params);
 
-    console.log(req.headers);
-
     console.log(result);
     res.send(result);
   } catch (err) {
+    console.log(`log ${err}`);
     res.send(null);
   }
 });
@@ -41,7 +41,7 @@ router.delete("/:id", authJWT, async (req, res) => {
     const result = await connection.query(sql, params);
     res.send(result);
   } catch (err) {
-    res.send(null);
+    res.status(401).json({ error: "로그인이 필요합니다!" });
   }
 });
 

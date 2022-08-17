@@ -76,7 +76,16 @@ class CustomerAdd extends React.Component {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     };
-    return post(url, formData, config);
+    return post(url, formData, config).catch((err) => {
+      if (err.response.status === 403) {
+        alert(err.response.data.error);
+        localStorage.removeItem("token");
+        window.location.reload();
+      } else {
+        alert(err.response.data.error);
+      }
+      this.props.stateRefresh();
+    });
   };
 
   handleClickOpen = () => {
