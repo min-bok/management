@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { useState } from "react";
 import API from "../modules/API";
+import axios from "axios";
 
 const styles = (theme) => ({
   hidden: {
@@ -52,7 +53,6 @@ function CustomerUpdate(props) {
   const handleBirthdayValueChange = (e) => {
     setBirthday(e.target.value);
   };
-
   const handleGenderValueChange = (e) => {
     setGender(e.target.value);
   };
@@ -85,10 +85,28 @@ function CustomerUpdate(props) {
     props.stateRefresh();
   };
 
+  const getPlaceholder = async (id) => {
+    const url = "/api/customers/" + id;
+
+    try {
+      const result = await axios.get(url);
+      const { image, name, birthday, gender, job } = result.data[0][0];
+      // setFile(null);
+      setUserName(name);
+      setBirthday(birthday);
+      setGender(gender);
+      setJob(job);
+      // setFileName(image);
+
+      console.log(result.data[0][0]);
+    } catch (err) {
+      console.log("실패");
+      console.log(err);
+    }
+  };
+
   const handleClickOpen = () => {
-    // getUser(props.id).then((res) => {
-    //   console.log(res);
-    // });
+    getPlaceholder();
     setOpen(true);
   };
 
@@ -104,7 +122,14 @@ function CustomerUpdate(props) {
 
   return (
     <div>
-      <Button variant="outlined" color="secondary" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        color="secondary"
+        onClick={(e) => {
+          handleClickOpen();
+          getPlaceholder(props.id);
+        }}
+      >
         수정
       </Button>
       <Dialog open={open} onClose={handleClose}>

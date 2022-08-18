@@ -17,9 +17,11 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  let sql = `SELECT * FROM SINGUP WHERE id = ?`;
+  let sql = "SELECT * FROM CUSTOMER WHERE id = ?";
+  const params = [req.params.id];
+
   try {
-    const result = await connection.query(sql);
+    const result = await connection.query(sql, params);
     res.send(result);
   } catch (err) {
     res.send(err);
@@ -57,7 +59,7 @@ router.delete("/:id", authJWT, async (req, res) => {
 
 router.put("/:id", authJWT, upload.single("image"), async (req, res) => {
   const id = req.params.id;
-  let sql = `UPDATE CUSTOMER SET image = ?,name = ?,birthday = ?,gender = ?,job = ?WHERE id = ?`;
+  let sql = `UPDATE CUSTOMER SET image = ?,name = ?,birthday = ?,gender = ?,job = ? WHERE id = ?`;
   let { name, birthday, gender, job } = req.body;
   let image = "/image/" + req.file.filename;
   let params = [image, name, birthday, gender, job, id];

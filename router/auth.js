@@ -37,7 +37,7 @@ router.post("/signup", async (req, res) => {
         SECRET_KEY,
         // process.env.SECRET_KEY
         {
-          expiresIn: "1s",
+          expiresIn: "30m",
           issuer: "minbok",
         }
       );
