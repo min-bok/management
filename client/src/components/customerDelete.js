@@ -6,28 +6,20 @@ import { DialogContent } from "@mui/material";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
 import axios from "axios";
+import { useState } from "react";
 
-class CustomerDelete extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-    };
-  }
+function CustomerDelete(props) {
+  const [open, setOpen] = useState(false);
 
-  handleClickOpen = () => {
-    this.setState({
-      open: true,
-    });
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
-  handleClose = () => {
-    this.setState({
-      open: false,
-    });
+  const handleClose = () => {
+    setOpen(false);
   };
 
-  deleteCustomer(id) {
+  const deleteCustomer = (id) => {
     const url = "/api/customers/" + id;
     axios
       .delete(url, {
@@ -37,7 +29,7 @@ class CustomerDelete extends React.Component {
       })
       .then((res) => {
         console.log(res);
-        this.props.stateRefresh();
+        props.stateRefresh();
       })
       .catch((err) => {
         if (err.response.status === 403) {
@@ -47,47 +39,37 @@ class CustomerDelete extends React.Component {
         } else {
           alert(err.response.data.error);
         }
-        this.props.stateRefresh();
+        props.stateRefresh();
       });
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={this.handleClickOpen}
-        >
-          삭제
-        </Button>
-        <Dialog open={this.state.open} onClose={this.handleClose}>
-          <DialogTitle onClose={this.handleClose}>삭제 경고</DialogTitle>
-          <DialogContent>
-            <Typography gutterBottom>선택한 고객 정보가 삭제됩니다.</Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={(e) => {
-                this.deleteCustomer(this.props.id);
-              }}
-            >
-              삭제
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={this.handleClose}
-            >
-              닫기
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+        삭제
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle onClose={handleClose}>삭제 경고</DialogTitle>
+        <DialogContent>
+          <Typography gutterBottom>선택한 고객 정보가 삭제됩니다.</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={(e) => {
+              deleteCustomer(props.id);
+            }}
+          >
+            삭제
+          </Button>
+          <Button variant="outlined" color="primary" onClick={handleClose}>
+            닫기
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
 
 export default CustomerDelete;
