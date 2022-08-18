@@ -1,5 +1,4 @@
 import React from "react";
-import { post } from "axios";
 import { Dialog } from "@mui/material";
 import { DialogActions } from "@mui/material";
 import { DialogTitle } from "@mui/material";
@@ -9,7 +8,6 @@ import { Button } from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { useState } from "react";
 import API from "../modules/API";
-const throwError = require("../throwError");
 
 const styles = (theme) => ({
   hidden: {

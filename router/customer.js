@@ -16,6 +16,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  let sql = `SELECT * FROM SINGUP WHERE id = ?`;
+  try {
+    const result = await connection.query(sql);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 router.post("/", authJWT, upload.single("image"), async (req, res) => {
   let sql = "INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?, now(), 0)";
   let image = "/image/" + req.file.filename;
