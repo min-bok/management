@@ -8,6 +8,7 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { useState } from "react";
+import API from "../modules/API";
 
 const styles = (theme) => ({
   hidden: {
@@ -29,7 +30,7 @@ function CustomerUpdate(props) {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     updateCustomer(props.id).then((res) => {
-      console.log(res);
+      // console.log(res);
       props.stateRefresh();
     });
     setFile(null);
@@ -81,29 +82,14 @@ function CustomerUpdate(props) {
     formData.append("gender", gender);
     formData.append("job", job);
 
-    await axios
-      .put(url, formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        props.stateRefresh();
-      })
-      .catch((err) => {
-        if (err.response.status === 403) {
-          // alert(err.response.data.error);
-          localStorage.removeItem("token");
-          window.location.reload();
-        } else {
-          alert(err.response.data.error);
-        }
-        props.stateRefresh();
-      });
+    await API._put(url, formData);
+    props.stateRefresh();
   };
 
   const handleClickOpen = () => {
+    // getUser(props.id).then((res) => {
+    //   console.log(res);
+    // });
     setOpen(true);
   };
 

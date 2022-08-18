@@ -5,8 +5,9 @@ import { DialogTitle } from "@mui/material";
 import { DialogContent } from "@mui/material";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
-import axios from "axios";
+// import axios from "axios";
 import { useState } from "react";
+import API from "../modules/API";
 
 function CustomerDelete(props) {
   const [open, setOpen] = useState(false);
@@ -19,28 +20,10 @@ function CustomerDelete(props) {
     setOpen(false);
   };
 
-  const deleteCustomer = (id) => {
+  const deleteCustomer = async (id) => {
     const url = "/api/customers/" + id;
-    axios
-      .delete(url, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        props.stateRefresh();
-      })
-      .catch((err) => {
-        if (err.response.status === 403) {
-          alert(err.response.data.error);
-          localStorage.removeItem("token");
-          window.location.reload();
-        } else {
-          alert(err.response.data.error);
-        }
-        props.stateRefresh();
-      });
+    await API._delete(url);
+    props.stateRefresh();
   };
 
   return (

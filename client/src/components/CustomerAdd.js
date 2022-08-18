@@ -8,6 +8,8 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { useState } from "react";
+import API from "../modules/API";
+const throwError = require("../throwError");
 
 const styles = (theme) => ({
   hidden: {
@@ -64,7 +66,7 @@ function CustomerAdd(props) {
     setJob(e.target.value);
   };
 
-  const addCustomer = () => {
+  const addCustomer = async () => {
     const url = "/api/customers";
     const formData = new FormData();
     formData.append("image", file);
@@ -72,22 +74,9 @@ function CustomerAdd(props) {
     formData.append("birthday", birthday);
     formData.append("gender", gender);
     formData.append("job", job);
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    };
-    return post(url, formData, config).catch((err) => {
-      if (err.response.status === 403) {
-        alert(err.response.data.error);
-        localStorage.removeItem("token");
-        window.location.reload();
-      } else {
-        alert(err.response.data.error);
-      }
-      props.stateRefresh();
-    });
+
+    await API._post(url, formData);
+    props.stateRefresh();
   };
 
   const handleClickOpen = () => {
