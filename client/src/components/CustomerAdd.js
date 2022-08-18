@@ -7,6 +7,7 @@ import { DialogContent } from "@mui/material";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { withStyles } from "@mui/styles";
+import { useState } from "react";
 
 const styles = (theme) => ({
   hidden: {
@@ -14,62 +15,63 @@ const styles = (theme) => ({
   },
 });
 
-class CustomerAdd extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      file: null,
-      userName: "",
-      birthday: "",
-      gender: "",
-      job: "",
-      fileName: "",
-      open: false,
-    };
-  }
+function CustomerAdd(props) {
+  const { classes } = props;
 
-  handleFormSubmit = (e) => {
+  const [file, setFile] = useState(null);
+  const [userName, setUserName] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [gender, setGender] = useState("");
+  const [job, setJob] = useState("");
+  const [fileName, setFileName] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    this.addCustomer()
+    addCustomer()
       .then((res) => {
         console.log(res.data);
-        this.props.stateRefresh();
+        props.stateRefresh();
       })
       .catch((err) => {
         alert(err.response.data.error);
       });
-    this.setState({
-      file: null,
-      userName: "",
-      birthday: "",
-      gender: "",
-      job: "",
-      fileName: "",
-      open: false,
-    });
+    setFile(null);
+    setUserName("");
+    setBirthday("");
+    setGender("");
+    setJob("");
+    setFileName("");
+    setOpen(false);
   };
 
-  handleFileChange = (e) => {
-    this.setState({
-      file: e.target.files[0],
-      fileName: e.target.value,
-    });
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    setFileName(e.target.value);
   };
 
-  handleValueChange = (e) => {
-    let nextState = {};
-    nextState[e.target.name] = e.target.value;
-    this.setState(nextState);
+  const handleUserNameValueChange = (e) => {
+    setUserName(e.target.value);
+  };
+  const handleBirthdayValueChange = (e) => {
+    setBirthday(e.target.value);
   };
 
-  addCustomer = () => {
+  const handleGenderValueChange = (e) => {
+    setGender(e.target.value);
+  };
+  const handleJobValueChange = (e) => {
+    setJob(e.target.value);
+  };
+
+  const addCustomer = () => {
     const url = "/api/customers";
     const formData = new FormData();
-    formData.append("image", this.state.file);
-    formData.append("name", this.state.userName);
-    formData.append("birthday", this.state.birthday);
-    formData.append("gender", this.state.gender);
-    formData.append("job", this.state.job);
+    formData.append("image", file);
+    formData.append("name", userName);
+    formData.append("birthday", birthday);
+    formData.append("gender", gender);
+    formData.append("job", job);
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -84,118 +86,101 @@ class CustomerAdd extends React.Component {
       } else {
         alert(err.response.data.error);
       }
-      this.props.stateRefresh();
+      props.stateRefresh();
     });
   };
 
-  handleClickOpen = () => {
-    this.setState({
-      open: true,
-    });
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
-  handleClose = () => {
-    this.setState({
-      file: null,
-      userName: "",
-      birthday: "",
-      gender: "",
-      job: "",
-      fileName: "",
-      open: false,
-    });
+  const handleClose = () => {
+    setFile(null);
+    setUserName("");
+    setBirthday("");
+    setGender("");
+    setJob("");
+    setFileName("");
+    setOpen(false);
   };
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.handleClickOpen}
-        >
-          고객 추가하기
-        </Button>
-        <Dialog open={this.state.open} onClose={this.handleClose}>
-          <DialogTitle>고객 추가</DialogTitle>
-          <DialogContent>
-            <input
-              className={classes.hidden}
-              accept="image/*"
-              id="raised-button-file"
-              type="file"
-              file={this.state.file}
-              value={this.state.fileName}
-              onChange={this.handleFileChange}
-            />
-            <br />
-            <label htmlFor="raised-button-file">
-              <Button
-                variant="contained"
-                color="primary"
-                component="span"
-                name="file"
-              >
-                {this.state.fileName === ""
-                  ? "프로필 이미지 선택"
-                  : this.state.fileName}
-              </Button>
-            </label>
-            <br />
-            <TextField
-              label="이름"
-              type="text"
-              name="userName"
-              value={this.state.userName}
-              onChange={this.handleValueChange}
-            />
-            <br />
-            <TextField
-              label="생년월일"
-              type="text"
-              name="birthday"
-              value={this.state.birthday}
-              onChange={this.handleValueChange}
-            />
-            <br />
-            <TextField
-              label="성별"
-              type="text"
-              name="gender"
-              value={this.state.gender}
-              onChange={this.handleValueChange}
-            />
-            <br />
-            <TextField
-              label="직업"
-              type="text"
-              name="job"
-              value={this.state.job}
-              onChange={this.handleValueChange}
-            />
-            <br />
-          </DialogContent>
-          <DialogActions>
+  return (
+    <div>
+      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+        고객 추가하기
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>고객 추가</DialogTitle>
+        <DialogContent>
+          <input
+            className={classes.hidden}
+            accept="image/*"
+            id="raised-button-file"
+            type="file"
+            file={file}
+            value={fileName}
+            onChange={handleFileChange}
+          />
+          <br />
+          <label htmlFor="raised-button-file">
             <Button
               variant="contained"
               color="primary"
-              onClick={this.handleFormSubmit}
+              component="span"
+              name="file"
             >
-              추가
+              {fileName === "" ? "프로필 이미지 선택" : fileName}
             </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={this.handleClose}
-            >
-              닫기
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }
+          </label>
+          <br />
+          <TextField
+            label="이름"
+            type="text"
+            name="userName"
+            value={userName}
+            onChange={handleUserNameValueChange}
+          />
+          <br />
+          <TextField
+            label="생년월일"
+            type="text"
+            name="birthday"
+            value={birthday}
+            onChange={handleBirthdayValueChange}
+          />
+          <br />
+          <TextField
+            label="성별"
+            type="text"
+            name="gender"
+            value={gender}
+            onChange={handleGenderValueChange}
+          />
+          <br />
+          <TextField
+            label="직업"
+            type="text"
+            name="job"
+            value={job}
+            onChange={handleJobValueChange}
+          />
+          <br />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleFormSubmit}
+          >
+            추가
+          </Button>
+          <Button variant="outlined" color="primary" onClick={handleClose}>
+            닫기
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
 
 export default withStyles(styles)(CustomerAdd);
