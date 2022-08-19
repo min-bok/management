@@ -8,7 +8,6 @@ const authJWT = (req, res, next) => {
 
   if (token !== "null") {
     // console.log(token);
-
     jwt.verify(token, SECRET_KEY, (err) => {
       if (err) {
         res.status(403).json({ error: "인증이 만료되어 로그아웃됩니다." });

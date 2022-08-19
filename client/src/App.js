@@ -13,6 +13,7 @@ import axios from "axios";
 import CustomerAdd from "./components/CustomerAdd";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const styles = {
   root: {
@@ -49,66 +50,63 @@ function App(props) {
       .catch((err) => console.log(err));
   }, []);
 
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     setCompleted(comleted >= 100 ? 0 : comleted + 25);
-  //   }, 20);
-  // }, [comleted]);
-
-  // console.log(customers.data);
-
   return (
-    <div>
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>번호</TableCell>
-              <TableCell>이미지</TableCell>
-              <TableCell>이름</TableCell>
-              <TableCell>생년월일</TableCell>
-              <TableCell>성별</TableCell>
-              <TableCell>직업</TableCell>
-              <TableCell>수정</TableCell>
-              <TableCell>삭제</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {customers.data ? (
-              customers.data.map((customer) => {
-                return (
-                  <Customer
-                    stateRefresh={stateRefresh}
-                    key={customer.id}
-                    id={customer.id}
-                    image={customer.image}
-                    name={customer.name}
-                    birthday={customer.birthday}
-                    gender={customer.gender}
-                    job={customer.job}
-                  />
-                );
-              })
-            ) : (
-              <TableRow>
-                <TableCell colSpan={6} align="center">
-                  {/* <CircularProgress
-                  className={classes.process}
-                  variant="determinate"
-                  value={comleted}
-                /> */}
-                  <p>로딩중</p>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </Paper>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
+    // <div>
+    //   <Paper className={classes.root}>
+    //     <Table className={classes.table}>
+    //       <TableHead>
+    //         <TableRow>
+    //           <TableCell>번호</TableCell>
+    //           <TableCell>이미지</TableCell>
+    //           <TableCell>이름</TableCell>
+    //           <TableCell>생년월일</TableCell>
+    //           <TableCell>성별</TableCell>
+    //           <TableCell>직업</TableCell>
+    //           <TableCell>수정</TableCell>
+    //           <TableCell>삭제</TableCell>
+    //         </TableRow>
+    //       </TableHead>
+    //       <TableBody>
+    //         {customers.data ? (
+    //           customers.data.map((customer) => {
+    //             return (
+    //               <Customer
+    //                 stateRefresh={stateRefresh}
+    //                 key={customer.id}
+    //                 id={customer.id}
+    //                 image={customer.image}
+    //                 name={customer.name}
+    //                 birthday={customer.birthday}
+    //                 gender={customer.gender}
+    //                 job={customer.job}
+    //               />
+    //             );
+    //           })
+    //         ) : (
+    //           <TableRow>
+    //             <TableCell colSpan={6} align="center">
+    //               {/* <CircularProgress
+    //               className={classes.process}
+    //               variant="determinate"
+    //               value={comleted}
+    //             /> */}
+    //               <p>로딩중</p>
+    //             </TableCell>
+    //           </TableRow>
+    //         )}
+    //       </TableBody>
+    //     </Table>
+    //   </Paper>
 
-      <CustomerAdd stateRefresh={stateRefresh} />
-      <Signup></Signup>
-      <Login></Login>
-    </div>
+    //   <CustomerAdd stateRefresh={stateRefresh} />
+    //   <Signup></Signup>
+    //   <Login></Login>
+    // </div>
   );
 }
 

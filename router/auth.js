@@ -103,7 +103,7 @@ router.post("/login", async (req, res) => {
             SECRET_KEY,
             // process.env.SECRET_KEY
             {
-              expiresIn: "1s",
+              expiresIn: "15m",
               issuer: "minbok",
             }
           );

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
 
 function Login() {
   // const [idx, setIdx] = useState("");
@@ -75,26 +77,31 @@ function Login() {
   return (
     <>
       {isLogin ? (
-        <button type="submit" onClick={logout}>
-          logout
-        </button>
+        <Button variant="contained" type="submit" onClick={logout}>
+          LOGOUT
+        </Button>
       ) : (
         <form>
-          <input
-            type="text"
+          <TextField
+            id="standard-basic"
+            label="Standard"
+            variant="standard"
             value={userId}
             onChange={handleUserIdValueChange}
             required
           />
-          <input
+          <TextField
+            id="standard-basic"
+            label="Standard"
+            variant="standard"
             type="password"
             value={userPw}
             onChange={handleUserPwValueChange}
             required
           />
-          <button type="submit" onClick={handleFormSubmit}>
-            login
-          </button>
+          <Button variant="contained" type="submit" onClick={handleFormSubmit}>
+            LOGIN
+          </Button>
         </form>
       )}
     </>

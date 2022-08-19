@@ -91,14 +91,14 @@ function CustomerUpdate(props) {
     try {
       const result = await axios.get(url);
       const { image, name, birthday, gender, job } = result.data[0][0];
-      // setFile(null);
+      setFile(image);
       setUserName(name);
       setBirthday(birthday);
       setGender(gender);
       setJob(job);
       // setFileName(image);
 
-      console.log(result.data[0][0]);
+      console.log(image);
     } catch (err) {
       console.log("실패");
       console.log(err);
@@ -106,7 +106,6 @@ function CustomerUpdate(props) {
   };
 
   const handleClickOpen = () => {
-    getPlaceholder();
     setOpen(true);
   };
 

@@ -60,9 +60,12 @@ router.delete("/:id", authJWT, async (req, res) => {
 router.put("/:id", authJWT, upload.single("image"), async (req, res) => {
   const id = req.params.id;
   let sql = `UPDATE CUSTOMER SET image = ?,name = ?,birthday = ?,gender = ?,job = ? WHERE id = ?`;
-  let { name, birthday, gender, job } = req.body;
-  let image = "/image/" + req.file.filename;
-  let params = [image, name, birthday, gender, job, id];
+  let { image, name, birthday, gender, job } = req.body;
+  let imagePath = "/image/" + req.file?.filename;
+  if (!req?.file?.filename) {
+    imagePath = image;
+  }
+  let params = [imagePath, name, birthday, gender, job, id];
 
   try {
     const result = await connection.query(sql, params);
