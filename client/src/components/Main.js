@@ -9,8 +9,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Customer from "./Customer";
 import CustomerAdd from "./CustomerAdd";
-import Signup from "./Signup";
-import Login from "./Login";
 import Header from "./Header";
 
 const styles = {
@@ -91,8 +89,6 @@ function Main(props) {
       </Paper>
 
       <CustomerAdd stateRefresh={stateRefresh} />
-      <Signup></Signup>
-      {/* <Login></Login> */}
     </div>
   );
 }

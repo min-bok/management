@@ -7,7 +7,7 @@ const authJWT = (req, res, next) => {
   const token = req.headers.authorization.split("Bearer ")[1]; // header에서 access token을 가져옵니다.
 
   if (token !== "null") {
-    // console.log(token);
+    console.log(token);
     jwt.verify(token, SECRET_KEY, (err) => {
       if (err) {
         res.status(403).json({ error: "인증이 만료되어 로그아웃됩니다." });

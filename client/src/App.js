@@ -1,9 +1,8 @@
 import "./App.css";
-import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Main from "./components/Main";
-import Header from "./components/Header";
+import SignUp from "./components/Signup";
 
 function App() {
   return (
@@ -11,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/test" element={<Header />} />
+        <Route path="/signup" element={<SignUp />}></Route>
       </Routes>
     </BrowserRouter>
   );
