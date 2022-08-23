@@ -27,9 +27,12 @@
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.10",
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.13",
     "@babel/node": "^7.18.10",
+    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.18.10",
+    "babel-loader": "^8.2.5",
     "concurrently": "^4.0.1"
   }
 }

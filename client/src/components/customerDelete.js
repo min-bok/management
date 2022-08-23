@@ -5,21 +5,16 @@ import { DialogTitle } from "@mui/material";
 import { DialogContent } from "@mui/material";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import API from "../modules/API";
 // import axiosInstance from "intercepter";
 
 function CustomerDelete(props) {
-  const [count, setCount] = useState(1);
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen2 = useCallback(() => {
-    setCount(count + 1);
-  }, [count]);
-
-  const handleClickOpen = useCallback(() => {
+  const handleClickOpen = () => {
     setOpen(true);
-  }, []);
+  };
 
   const handleClose = () => {
     setOpen(false);

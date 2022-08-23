@@ -206,8 +206,8 @@ export default function SignIn() {
         alert(msg);
         localStorage.setItem("token", AccessToken);
 
-        res.send(AccessToken);
         navigate("/customer");
+        res.send(AccessToken);
       })
       .catch((err) => {
         alert(err.response.data.msg);
