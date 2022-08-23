@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
+import customerRouter from "./customer";
+import authRouter from "./auth";
+
 const router = express.Router();
-const customerRouter = require("./customer");
-const authRouter = require("./auth");
 
 router.use("/customers", customerRouter);
 router.use("/auth", authRouter);

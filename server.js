@@ -1,11 +1,11 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+import express from "express";
+import bodyParser from "body-parser";
+import { DotenvConfigOptions } from "dotenv";
+import routerApi from "./router";
+import axios from "axios";
+
 const app = express();
 const port = process.env.PORT || 5000;
-require("dotenv").config();
-
-const routerApi = require("./router");
-const { default: axios } = require("axios");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

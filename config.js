@@ -1,5 +1,6 @@
-const fs = require("fs");
-const mysql = require("mysql2/promise");
+import fs from "fs";
+import mysql from "mysql2/promise";
+
 const data = fs.readFileSync("./database.json");
 const conf = JSON.parse(data);
 

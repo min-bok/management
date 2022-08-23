@@ -1,23 +1,15 @@
-const express = require("express");
-const router = express.Router();
-const connection = require("../config");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
+import express from "express";
+import connection from "../config";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-const jwt = require("jsonwebtoken");
-// require("dotenv").config();
+const router = express.Router();
+const saltRounds = 10;
 const SECRET_KEY =
   "d7dc0a02ab84686fa1da76896332901382c50372692bf317c80bcf5858ebae50b2934c5d30b00b308d0966385d25e6bc";
 
 // 테스트 계정
 // testing, test1234
-
-// router.get("/test", (req, res) => {
-//   const token =
-//     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOiJ0ZXN0aW5nIiwicHciOiJ0ZXN0MTIzNCIsImlhdCI6MTY2MDcwNDMzOSwiZXhwIjoxNjYwNzA1MjM5LCJpc3MiOiJtaW5ib2sifQ.PM778kZbmf48GKlMbAm0_sDM-kroL1VNVgSXQep9VqQ";
-//   const payload = jwt.verify(token, SECRET_KEY);
-//   res.send(payload);
-// });
 
 router.post("/signup", async (req, res) => {
   const sql = `INSERT INTO SINGUP VALUES (null, ?, ?)`;

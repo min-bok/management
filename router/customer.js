@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express";
+import multer from "multer";
+import connection from "../config";
+import authJWT from "../middleware/authJWT";
+
 const router = express.Router();
-const multer = require("multer");
 const upload = multer({ dest: "./upload" });
-const connection = require("../config");
-const authJWT = require("../middleware/authJWT");
-const jwt = require("jsonwebtoken");
 
 router.get("/", async (req, res) => {
   let sql = "SELECT * FROM CUSTOMER WHERE isDeleted = 0";
