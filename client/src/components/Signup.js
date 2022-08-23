@@ -50,7 +50,7 @@ function Signup() {
     e.preventDefault();
     const result = await singup();
     alert(result.data.msg);
-    navigate("/login");
+    navigate("/");
     console.log(result);
     setUserId("");
     setUserPw("");

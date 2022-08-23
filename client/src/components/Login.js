@@ -205,9 +205,9 @@ export default function SignIn() {
         // const RefreshToken = res.data.RefreshToken;
         alert(msg);
         localStorage.setItem("token", AccessToken);
-        navigate("/");
 
         res.send(AccessToken);
+        navigate("/customer");
       })
       .catch((err) => {
         alert(err.response.data.msg);
