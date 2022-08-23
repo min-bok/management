@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const throwError = (err) => {
+  console.log(err);
   if (err.response.status === 401) alert(err.response.data.error);
   if (err.response.status === 403) {
     alert(err.response.data.error);

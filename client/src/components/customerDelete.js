@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
 import { useState } from "react";
 import API from "../modules/API";
+// import axiosInstance from "intercepter";
 
 function CustomerDelete(props) {
   const [open, setOpen] = useState(false);
@@ -23,6 +24,7 @@ function CustomerDelete(props) {
     const url = "/api/customers/" + id;
     await API._delete(url);
     props.stateRefresh();
+    // window.location.reload();
   };
 
   return (

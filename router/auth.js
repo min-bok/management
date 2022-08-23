@@ -29,18 +29,18 @@ router.post("/signup", async (req, res) => {
       params[1] = hash;
       const result = await connection.query(sql, params);
 
-      const AccessToken = jwt.sign(
-        {
-          type: "JWT",
-          id: userId,
-        },
-        SECRET_KEY,
-        // process.env.SECRET_KEY
-        {
-          expiresIn: "30m",
-          issuer: "minbok",
-        }
-      );
+      // const AccessToken = jwt.sign(
+      //   {
+      //     type: "JWT",
+      //     id: userId,
+      //   },
+      //   SECRET_KEY,
+      //   // process.env.SECRET_KEY
+      //   {
+      //     expiresIn: "30m",
+      //     issuer: "minbok",
+      //   }
+      // );
 
       // const RefreshToken = jwt.sign(
       //   {
@@ -63,14 +63,17 @@ router.post("/signup", async (req, res) => {
       return res.status(200).json({
         ok: true,
         msg: "회원가입 완료!",
-        AccessToken: AccessToken,
-        RefreshToken: RefreshToken,
+        // AccessToken: AccessToken,
+        // RefreshToken: RefreshToken,
       });
     });
   } catch (err) {
     res.status(400).json({
       ok: false,
       msg: "회원가입 과정에서 에러발생!",
+    });
+    return res.status(504).json({
+      msg: "이미 사용중인 아이디 입니다.",
     });
   }
 });
@@ -103,23 +106,23 @@ router.post("/login", async (req, res) => {
             SECRET_KEY,
             // process.env.SECRET_KEY
             {
-              expiresIn: "15m",
+              expiresIn: "30m",
               issuer: "minbok",
             }
           );
 
-          // const RefreshToken = jwt.sign(
-          //   {
-          //     type: "JWT",
-          //     id: userId,
-          //     pw: userPw,
-          //   },
-          //   SECRET_KEY,
-          //   {
-          //     expiresIn: "14d",
-          //     issuer: "minbok",
-          //   }
-          // );
+          const RefreshToken = jwt.sign(
+            {
+              type: "JWT",
+              id: userId,
+              pw: userPw,
+            },
+            SECRET_KEY,
+            {
+              expiresIn: "14d",
+              issuer: "minbok",
+            }
+          );
 
           // console.log("회원가입 완료!");
           // console.log(`AccessToken ${AccessToken}`);
@@ -128,7 +131,7 @@ router.post("/login", async (req, res) => {
           return res.status(200).json({
             msg: "로그인 성공!",
             AccessToken: AccessToken,
-            // RefreshToken: RefreshToken,
+            RefreshToken: RefreshToken,
           });
         } else {
           console.log("불일치");

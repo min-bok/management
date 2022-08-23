@@ -53,7 +53,7 @@ router.delete("/:id", authJWT, async (req, res) => {
     const result = await connection.query(sql, params);
     res.send(result);
   } catch (err) {
-    res.status(401).json({ error: "로그인이 필요합니다!" });
+    // res.status(401).json({ error: "로그인이 필요합니다!" });
   }
 });
 

@@ -16,6 +16,7 @@ const authJWT = (req, res, next) => {
       }
     });
   } else {
+    console.log(token);
     res.status(401).json({ error: "로그인이 필요합니다!" });
   }
 };
