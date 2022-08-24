@@ -1,9 +1,12 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+
 let isTokenRefreshing = false;
 let refreshSubscribers = [];
+
 export const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const domain = process.env.NEXT_PUBLIC_DOMAIN;
+
 const axiosInstance = axios.create({
   baseURL: baseUrl,
   headers: {
@@ -17,6 +20,7 @@ const onTokenRefreshed = (accessToken) => {
 const addRefreshSubscriber = (callback) => {
   refreshSubscribers.push(callback);
 };
+
 axiosInstance.interceptors.request.use(
   function (config) {
     config.headers["dealingroom-access-token"] = Cookies.get("accessToken");
@@ -30,6 +34,7 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;

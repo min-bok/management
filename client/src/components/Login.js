@@ -57,15 +57,6 @@ export default function SignIn() {
     setUserPw(e.target.value);
   };
 
-  // const handleSubmit = (event) => {
-  // event.preventDefault();
-  // const data = new FormData(event.currentTarget);
-  // console.log({
-  //   email: data.get("email"),
-  //   password: data.get("password"),
-  // });
-  // };
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const result = await loginCheck();
@@ -91,9 +82,15 @@ export default function SignIn() {
       .then(function (res) {
         const msg = res.data.msg;
         const AccessToken = res.data.AccessToken;
-        // const RefreshToken = res.data.RefreshToken;
+        const RefreshToken = res.data.RefreshToken;
         alert(msg);
         localStorage.setItem("token", AccessToken);
+        localStorage.setItem("refresh", RefreshToken);
+
+        const token = {
+          AccessToken,
+          RefreshToken,
+        };
 
         navigate("/customer");
         res.send(AccessToken);
