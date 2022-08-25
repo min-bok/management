@@ -1,20 +1,39 @@
 import jwt from "jsonwebtoken";
+import test from "../access";
 
 const SECRET_KEY =
   "d7dc0a02ab84686fa1da76896332901382c50372692bf317c80bcf5858ebae50b2934c5d30b00b308d0966385d25e6bc";
 
 const authJWT = (req, res, next) => {
   const token = req.headers.authorization.split("Bearer ")[1]; // header에서 access token을 가져옵니다.
+  const refresh = req.headers.refresh;
 
   if (token !== "null") {
-    jwt.verify(token, SECRET_KEY, (err) => {
+    jwt.verify(refresh, SECRET_KEY, (err) => {
       if (err) {
         res.status(403).json({ error: "인증이 만료되어 로그아웃됩니다." });
       } else {
-        next();
+        console.log("리프레시 토큰!");
+        jwt.verify(token, SECRET_KEY, (err) => {
+          if (err) {
+            res.status(400).json({ error: test(11) });
+          } else {
+            console.log("hu");
+            next();
+          }
+        });
       }
     });
+
+    // jwt.verify(token, SECRET_KEY, (err) => {
+    //   if (err) {
+    //     res.status(403).json({ error: "인증이 만료되어 로그아웃됩니다." });
+    //   } else {
+    //     next();
+    //   }
+    // });
   } else {
+    console.log(token);
     res.status(401).json({ error: "로그인이 필요합니다!" });
   }
 };

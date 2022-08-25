@@ -2,6 +2,7 @@ import express from "express";
 import connection from "../config";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import test from "../access";
 
 const router = express.Router();
 const saltRounds = 10;
@@ -90,18 +91,19 @@ router.post("/login", async (req, res) => {
         if (result) {
           console.log("비밀번호 일치");
 
-          const AccessToken = jwt.sign(
-            {
-              type: "JWT",
-              id: userId,
-            },
-            SECRET_KEY,
-            // process.env.SECRET_KEY
-            {
-              expiresIn: "30m",
-              issuer: "minbok",
-            }
-          );
+          // const AccessToken = jwt.sign(
+          //   {
+          //     type: "JWT",
+          //     id: userId,
+          //   },
+          //   SECRET_KEY,
+          //   {
+          //     expiresIn: "1s",
+          //     issuer: "minbok",
+          //   }
+          // );
+
+          const AccessToken = test(userId);
 
           const RefreshToken = jwt.sign(
             {

@@ -87,11 +87,6 @@ export default function SignIn() {
         localStorage.setItem("token", AccessToken);
         localStorage.setItem("refresh", RefreshToken);
 
-        const token = {
-          AccessToken,
-          RefreshToken,
-        };
-
         navigate("/customer");
         res.send(AccessToken);
       })
